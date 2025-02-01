@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files psalm-version="6.1.0@827971f8bc7a28bb4f842f34bf8901521de1cea3">
+  <file src="src/Structure/AbstractElement.php">
+    <MixedPropertyFetch>
+      <code><![CDATA[$other->id]]></code>
+    </MixedPropertyFetch>
+  </file>
+  <file src="src/Structure/Graph.php">
+    <UnusedClass>
+      <code><![CDATA[Graph]]></code>
+    </UnusedClass>
+  </file>
+  <file src="src/Structure/Path.php">
+    <MixedPropertyFetch>
+      <code><![CDATA[$other->labels]]></code>
+      <code><![CDATA[$other->objects]]></code>
+    </MixedPropertyFetch>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[equals]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Structure/Property.php">
+    <MixedPropertyFetch>
+      <code><![CDATA[$other->key]]></code>
+      <code><![CDATA[$other->value]]></code>
+    </MixedPropertyFetch>
+  </file>
+  <file src="test/Structure/EdgeTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[equalsProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="test/Structure/PropertyTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[equalsProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="test/Structure/UtilTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[toStringProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="test/Structure/VertexPropertyTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[equalsProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="test/Structure/VertexTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[equalsProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+</files>

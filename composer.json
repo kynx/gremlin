@@ -1,0 +1,57 @@
+{
+    "name": "kynx/phremlin",
+    "description": "Talk Gremlin to graph databases",
+    "type": "library",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "gremlin",
+        "tinkerpop",
+        "graph",
+        "database"
+    ],
+    "authors": [
+        {
+            "name": "Matt Kynaston",
+            "email": "matt@kynx.org"
+        }
+    ],
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "require": {
+        "php": "~8.3.0 || ~8.4.0"
+    },
+    "require-dev": {
+        "laminas/laminas-coding-standard": "^3.0",
+        "phpunit/phpunit": "^11.5",
+        "psalm/plugin-phpunit": "^0.19.2",
+        "roave/security-advisories": "dev-master",
+        "squizlabs/php_codesniffer": "^3.7",
+        "vimeo/psalm": "^6.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kynx\\Gremlin\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "KynxTest\\Gremlin\\": "test/"
+        }
+    },
+    "scripts": {
+        "check": [
+            "@cs-check",
+            "@static-analysis",
+            "@test"
+        ],
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf",
+        "static-analysis": "psalm --shepherd --stats",
+        "test": "phpunit --colors=always",
+        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
+    }
+}
