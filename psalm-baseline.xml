@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="6.1.0@827971f8bc7a28bb4f842f34bf8901521de1cea3">
+<files psalm-version="6.5.1@3f17a6b24a2dbe543e21408c2b19108cf6a355ef">
   <file src="src/Structure/AbstractElement.php">
     <MixedPropertyFetch>
       <code><![CDATA[$other->id]]></code>
@@ -9,6 +9,61 @@
     <UnusedClass>
       <code><![CDATA[Graph]]></code>
     </UnusedClass>
+  </file>
+  <file src="src/Structure/Io/Binary/Reader.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[getReader]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Structure/Io/Binary/Serializer/BigDecimalSerializer.php">
+    <InvalidArgument>
+      <code><![CDATA[$this]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="src/Structure/Io/Binary/Serializer/BigIntegerSerializer.php">
+    <InvalidArgument>
+      <code><![CDATA[$this]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="src/Structure/Io/Binary/Serializer/BooleanSerializer.php">
+    <InvalidArgument>
+      <code><![CDATA[$this]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="src/Structure/Io/Binary/Serializer/ByteSerializer.php">
+    <InvalidArgument>
+      <code><![CDATA[$this]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="src/Structure/Io/Binary/Serializer/DoubleSerializer.php">
+    <InvalidArgument>
+      <code><![CDATA[$this]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="src/Structure/Io/Binary/Serializer/FloatSerializer.php">
+    <InvalidArgument>
+      <code><![CDATA[$this]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="src/Structure/Io/Binary/Serializer/IntSerializer.php">
+    <InvalidArgument>
+      <code><![CDATA[$this]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="src/Structure/Io/Binary/Serializer/LongSerializer.php">
+    <InvalidArgument>
+      <code><![CDATA[$this]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="src/Structure/Io/Binary/Serializer/ShortSerializer.php">
+    <InvalidArgument>
+      <code><![CDATA[$this]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="src/Structure/Io/Binary/Writer.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[write]]></code>
+    </PossiblyUnusedMethod>
   </file>
   <file src="src/Structure/Path.php">
     <MixedPropertyFetch>
@@ -25,14 +80,158 @@
       <code><![CDATA[$other->value]]></code>
     </MixedPropertyFetch>
   </file>
+  <file src="src/Structure/Type/BigDecimalType.php">
+    <TypeDoesNotContainNull>
+      <code><![CDATA[$this->value === null]]></code>
+    </TypeDoesNotContainNull>
+  </file>
+  <file src="src/Structure/Type/BigIntegerType.php">
+    <TypeDoesNotContainNull>
+      <code><![CDATA[$other->value === null]]></code>
+    </TypeDoesNotContainNull>
+  </file>
   <file src="test/Structure/EdgeTest.php">
     <PossiblyUnusedMethod>
       <code><![CDATA[equalsProvider]]></code>
     </PossiblyUnusedMethod>
   </file>
+  <file src="test/Structure/Io/Binary/Serializer/AbstractSerializerTestCase.php">
+    <MixedAssignment>
+      <code><![CDATA[$value]]></code>
+    </MixedAssignment>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[invalidTypesProvider]]></code>
+      <code><![CDATA[serializableTypesProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="test/Structure/Io/Binary/Serializer/BigDecimalSerializerTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[invalidTypesProvider]]></code>
+      <code><![CDATA[serializableTypesProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="test/Structure/Io/Binary/Serializer/BigIntegerSerializerTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[invalidTypesProvider]]></code>
+      <code><![CDATA[serializableTypesProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="test/Structure/Io/Binary/Serializer/BooleanSerializerTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[invalidTypesProvider]]></code>
+      <code><![CDATA[serializableTypesProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="test/Structure/Io/Binary/Serializer/ByteSerializerTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[invalidTypesProvider]]></code>
+      <code><![CDATA[serializableTypesProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="test/Structure/Io/Binary/Serializer/DoubleSerializerTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[invalidTypesProvider]]></code>
+      <code><![CDATA[serializableTypesProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="test/Structure/Io/Binary/Serializer/FloatSerializerTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[invalidTypesProvider]]></code>
+      <code><![CDATA[serializableTypesProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="test/Structure/Io/Binary/Serializer/IntSerializerTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[invalidTypesProvider]]></code>
+      <code><![CDATA[serializableTypesProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="test/Structure/Io/Binary/Serializer/IntUtilTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[int16Provider]]></code>
+      <code><![CDATA[int32Provider]]></code>
+      <code><![CDATA[uInt16Provider]]></code>
+      <code><![CDATA[uInt32Provider]]></code>
+    </PossiblyUnusedMethod>
+    <TooManyArguments>
+      <code><![CDATA[IntUtil::unpackUInt($value, 16)]]></code>
+    </TooManyArguments>
+  </file>
+  <file src="test/Structure/Io/Binary/Serializer/LongSerializerTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[invalidTypesProvider]]></code>
+      <code><![CDATA[serializableTypesProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="test/Structure/Io/Binary/Serializer/ShortSerializerTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[invalidTypesProvider]]></code>
+      <code><![CDATA[serializableTypesProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
   <file src="test/Structure/PropertyTest.php">
     <PossiblyUnusedMethod>
       <code><![CDATA[equalsProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="test/Structure/Type/BigDecimalTypeTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[equalsProvider]]></code>
+      <code><![CDATA[toStringProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="test/Structure/Type/BigIntegerTypeTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[equalsProvider]]></code>
+      <code><![CDATA[toStringProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="test/Structure/Type/BooleanTypeTest.php">
+    <MissingReturnType>
+      <code><![CDATA[testEquals]]></code>
+    </MissingReturnType>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[equalsProvider]]></code>
+      <code><![CDATA[toStringProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="test/Structure/Type/ByteTypeTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[equalsProvider]]></code>
+      <code><![CDATA[outOfRangeProvider]]></code>
+      <code><![CDATA[toStringProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="test/Structure/Type/DoubleTypeTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[equalsProvider]]></code>
+      <code><![CDATA[toStringProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="test/Structure/Type/FloatTypeTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[equalsProvider]]></code>
+      <code><![CDATA[toStringProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="test/Structure/Type/IntTypeTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[equalsProvider]]></code>
+      <code><![CDATA[outOfRangeProvider]]></code>
+      <code><![CDATA[toStringProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="test/Structure/Type/LongTypeTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[equalsProvider]]></code>
+      <code><![CDATA[toStringProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="test/Structure/Type/ShortTypeTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[equalsProvider]]></code>
+      <code><![CDATA[outOfRangeProvider]]></code>
+      <code><![CDATA[toStringProvider]]></code>
     </PossiblyUnusedMethod>
   </file>
   <file src="test/Structure/UtilTest.php">
