@@ -20,6 +20,6 @@ final class ReaderException extends DomainException implements ExceptionInterfac
 
     public static function fromThrowable(Throwable $throwable): self
     {
-        return new self($throwable->getMessage(), 0, $throwable);
+        return new self(sprintf("Error reading stream: %s", $throwable->getMessage()), 0, $throwable);
     }
 }

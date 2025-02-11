@@ -35,6 +35,11 @@
       <code><![CDATA[$this]]></code>
     </InvalidArgument>
   </file>
+  <file src="src/Structure/Io/Binary/Serializer/CharSerializer.php">
+    <InvalidArgument>
+      <code><![CDATA[$this]]></code>
+    </InvalidArgument>
+  </file>
   <file src="src/Structure/Io/Binary/Serializer/DoubleSerializer.php">
     <InvalidArgument>
       <code><![CDATA[$this]]></code>
@@ -56,6 +61,11 @@
     </InvalidArgument>
   </file>
   <file src="src/Structure/Io/Binary/Serializer/ShortSerializer.php">
+    <InvalidArgument>
+      <code><![CDATA[$this]]></code>
+    </InvalidArgument>
+  </file>
+  <file src="src/Structure/Io/Binary/Serializer/StringSerializer.php">
     <InvalidArgument>
       <code><![CDATA[$this]]></code>
     </InvalidArgument>
@@ -130,6 +140,12 @@
       <code><![CDATA[serializableTypesProvider]]></code>
     </PossiblyUnusedMethod>
   </file>
+  <file src="test/Structure/Io/Binary/Serializer/CharSerializerTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[invalidTypesProvider]]></code>
+      <code><![CDATA[serializableTypesProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
   <file src="test/Structure/Io/Binary/Serializer/DoubleSerializerTest.php">
     <PossiblyUnusedMethod>
       <code><![CDATA[invalidTypesProvider]]></code>
@@ -166,6 +182,12 @@
     </PossiblyUnusedMethod>
   </file>
   <file src="test/Structure/Io/Binary/Serializer/ShortSerializerTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[invalidTypesProvider]]></code>
+      <code><![CDATA[serializableTypesProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="test/Structure/Io/Binary/Serializer/StringSerializerTest.php">
     <PossiblyUnusedMethod>
       <code><![CDATA[invalidTypesProvider]]></code>
       <code><![CDATA[serializableTypesProvider]]></code>
@@ -210,6 +232,14 @@
       <code><![CDATA[toStringProvider]]></code>
     </PossiblyUnusedMethod>
   </file>
+  <file src="test/Structure/Type/CharTypeTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[equalsProvider]]></code>
+      <code><![CDATA[expectedValueProvider]]></code>
+      <code><![CDATA[invalidValueProvider]]></code>
+      <code><![CDATA[toStringProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
   <file src="test/Structure/Type/DoubleTypeTest.php">
     <PossiblyUnusedMethod>
       <code><![CDATA[equalsProvider]]></code>
@@ -239,6 +269,13 @@
     <PossiblyUnusedMethod>
       <code><![CDATA[equalsProvider]]></code>
       <code><![CDATA[outOfRangeProvider]]></code>
+      <code><![CDATA[toStringProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="test/Structure/Type/StringTypeTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[equalsProvider]]></code>
+      <code><![CDATA[getValueProvider]]></code>
       <code><![CDATA[toStringProvider]]></code>
     </PossiblyUnusedMethod>
   </file>

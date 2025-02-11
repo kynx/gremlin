@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Kynx\Gremlin\Structure\Io\Binary\Serializer;
 
 use Kynx\Gremlin\Structure\Io\Binary\Reader;
-use Kynx\Gremlin\Structure\Io\Binary\Serializer\AbstractSerializer;
 use Kynx\Gremlin\Structure\Io\Binary\Writer;
 use Kynx\Gremlin\Structure\Io\Binary\WriterException;
 use Kynx\Gremlin\Structure\Type\LongType;

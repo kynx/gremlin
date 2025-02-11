@@ -9,6 +9,9 @@ use const PHP_INT_MIN;
 
 abstract readonly class AbstractIntegerType implements TypeInterface
 {
+    /**
+     * @throws TypeException
+     */
     public function __construct(private ?int $value)
     {
         if ($this->value === null) {

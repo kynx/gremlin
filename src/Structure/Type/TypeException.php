@@ -15,4 +15,14 @@ final class TypeException extends DomainException implements ExceptionInterface
     {
         return new self(sprintf("Expected value between %s and %s, got %s", $min, $max, $value));
     }
+
+    public static function invalidCharString(string $value): self
+    {
+        return new self("Expected single character UTF-8 string, got: '$value'");
+    }
+
+    public static function invalidString(string $value): self
+    {
+        return new self("Expected UTF-8 string, got: '$value'");
+    }
 }
