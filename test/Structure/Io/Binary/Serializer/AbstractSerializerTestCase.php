@@ -54,6 +54,7 @@ abstract class AbstractSerializerTestCase extends TestCase
 
         $actual = $this->getSerializer()->read($stream, $this->getReader());
 
+        /** @var mixed $value */
         $value = $expected->getValue();
         if ($value === null) {
             self::assertInstanceOf($expected::class, $actual);

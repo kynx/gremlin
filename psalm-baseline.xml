@@ -60,6 +60,11 @@
       <code><![CDATA[$this]]></code>
     </InvalidArgument>
   </file>
+  <file src="src/Structure/Io/Binary/Serializer/UnspecifiedNullObjectSerializer.php">
+    <InvalidArgument>
+      <code><![CDATA[$this]]></code>
+    </InvalidArgument>
+  </file>
   <file src="src/Structure/Io/Binary/Writer.php">
     <PossiblyUnusedMethod>
       <code><![CDATA[write]]></code>
@@ -96,9 +101,6 @@
     </PossiblyUnusedMethod>
   </file>
   <file src="test/Structure/Io/Binary/Serializer/AbstractSerializerTestCase.php">
-    <MixedAssignment>
-      <code><![CDATA[$value]]></code>
-    </MixedAssignment>
     <PossiblyUnusedMethod>
       <code><![CDATA[invalidTypesProvider]]></code>
       <code><![CDATA[serializableTypesProvider]]></code>
@@ -169,6 +171,12 @@
       <code><![CDATA[serializableTypesProvider]]></code>
     </PossiblyUnusedMethod>
   </file>
+  <file src="test/Structure/Io/Binary/Serializer/UnspecifiedNullObjectSerializerTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[invalidTypesProvider]]></code>
+      <code><![CDATA[serializableTypesProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
   <file src="test/Structure/PropertyTest.php">
     <PossiblyUnusedMethod>
       <code><![CDATA[equalsProvider]]></code>
@@ -232,6 +240,11 @@
       <code><![CDATA[equalsProvider]]></code>
       <code><![CDATA[outOfRangeProvider]]></code>
       <code><![CDATA[toStringProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="test/Structure/Type/UnspecifiedNullObjectTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[equalsProvider]]></code>
     </PossiblyUnusedMethod>
   </file>
   <file src="test/Structure/UtilTest.php">
