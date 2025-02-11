@@ -6,7 +6,7 @@ namespace Kynx\Gremlin\Structure\Type;
 
 use Kynx\Gremlin\Structure\Type\AbstractIntegerType;
 
-final readonly class LongType extends AbstractIntegerType
+final readonly class TimestampType extends AbstractIntegerType
 {
     public static function getSize(): int
     {
