@@ -36,7 +36,7 @@ final readonly class LongSerializer extends AbstractSerializer
             return new LongType(null);
         }
 
-        return new LongType(IntUtil::unpackInt($stream->read(LongType::getSize() * 8)));
+        return new LongType(IntUtil::unpackInt($stream->read(LongType::getSize())));
     }
 
     public function write(StreamInterface $stream, TypeInterface $type, Writer $writer): void
@@ -52,6 +52,6 @@ final readonly class LongSerializer extends AbstractSerializer
         }
 
         $this->writeNotNull($stream);
-        $stream->write(IntUtil::packInt($value, 64));
+        $stream->write(IntUtil::packInt($value, LongType::getSize() * 8));
     }
 }

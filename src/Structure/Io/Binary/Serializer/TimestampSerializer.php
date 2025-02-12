@@ -36,7 +36,7 @@ final readonly class TimestampSerializer extends AbstractSerializer
             return new TimestampType(null);
         }
 
-        return new TimestampType(IntUtil::unpackInt($stream->read(TimestampType::getSize() * 8)));
+        return new TimestampType(IntUtil::unpackInt($stream->read(TimestampType::getSize())));
     }
 
     public function write(StreamInterface $stream, TypeInterface $type, Writer $writer): void

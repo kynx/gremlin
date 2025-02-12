@@ -17,9 +17,24 @@ use Psr\Http\Message\StreamInterface;
 use function fopen;
 use function is_float;
 use function is_nan;
+use function strlen;
 
 abstract class AbstractSerializerTestCase extends TestCase
 {
+    protected const string CRYING = "\xF0\x9F\x98\xAD"; // loudly crying face
+
+    protected ?StreamInterface $stream = null;
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        if ($this->stream instanceof StreamInterface) {
+            $this->stream->close();
+            $this->stream = null;
+        }
+    }
+
     abstract protected function getSerializer(): SerializerInterface;
 
     /**
@@ -36,11 +51,11 @@ abstract class AbstractSerializerTestCase extends TestCase
     public function testWriteAppendsToStream(TypeInterface $type, string $expected): void
     {
         $stream = $this->getStream();
-        $stream->write("\xff");
+        $stream->write(self::CRYING);
 
         $this->getSerializer()->write($stream, $type, $this->getWriter());
         $stream->rewind();
-        self::assertSame("\xff", $stream->read(1));
+        self::assertSame(self::CRYING, $stream->read(strlen(self::CRYING)));
         $actual = $stream->read(1024);
         self::assertSame($expected, $actual);
     }
@@ -48,10 +63,7 @@ abstract class AbstractSerializerTestCase extends TestCase
     #[DataProvider('serializableTypesProvider')]
     public function testReadReturnsValue(TypeInterface $expected, string $bytes): void
     {
-        $stream = $this->getStream();
-        $stream->write($bytes);
-        $stream->rewind();
-
+        $stream = $this->getStream($bytes, self::CRYING);
         $actual = $this->getSerializer()->read($stream, $this->getReader());
 
         /** @var mixed $value */
@@ -65,6 +77,8 @@ abstract class AbstractSerializerTestCase extends TestCase
         } else {
             self::assertEquals($expected, $actual);
         }
+
+        self::assertSame(self::CRYING, $stream->read(1024));
     }
 
     #[DataProvider('invalidTypesProvider')]
@@ -74,11 +88,18 @@ abstract class AbstractSerializerTestCase extends TestCase
         $this->getSerializer()->write(self::createStub(StreamInterface::class), $type, $this->getWriter());
     }
 
-    protected function getStream(): Stream
+    protected function getStream(string ...$chunks): Stream
     {
         $resource = fopen('php://memory', 'r+');
         self::assertIsResource($resource);
-        return new Stream($resource);
+
+        $this->stream = new Stream($resource);
+        foreach ($chunks as $chunk) {
+            $this->stream->write($chunk);
+        }
+        $this->stream->rewind();
+
+        return $this->stream;
     }
 
     protected function getReader(): Reader
