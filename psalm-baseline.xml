@@ -45,6 +45,11 @@
       <code><![CDATA[$this]]></code>
     </InvalidArgument>
   </file>
+  <file src="src/Structure/Io/Binary/Serializer/ClassSerializer.php">
+    <InvalidArgument>
+      <code><![CDATA[$this]]></code>
+    </InvalidArgument>
+  </file>
   <file src="src/Structure/Io/Binary/Serializer/DateSerializer.php">
     <InvalidArgument>
       <code><![CDATA[$this]]></code>
@@ -167,6 +172,12 @@
       <code><![CDATA[serializableTypesProvider]]></code>
     </PossiblyUnusedMethod>
   </file>
+  <file src="test/Structure/Io/Binary/Serializer/ClassSerializerTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[invalidTypesProvider]]></code>
+      <code><![CDATA[serializableTypesProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
   <file src="test/Structure/Io/Binary/Serializer/DateSerializerTest.php">
     <PossiblyUnusedMethod>
       <code><![CDATA[invalidTypesProvider]]></code>
@@ -284,6 +295,13 @@
       <code><![CDATA[equalsProvider]]></code>
       <code><![CDATA[expectedValueProvider]]></code>
       <code><![CDATA[invalidValueProvider]]></code>
+      <code><![CDATA[toStringProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="test/Structure/Type/ClassTypeTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[equalsProvider]]></code>
+      <code><![CDATA[getValueProvider]]></code>
       <code><![CDATA[toStringProvider]]></code>
     </PossiblyUnusedMethod>
   </file>

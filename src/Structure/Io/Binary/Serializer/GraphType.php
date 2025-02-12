@@ -19,7 +19,7 @@ enum GraphType: int
     case String                = 0x03;
     case Date                  = 0x04;
     case Timestamp             = 0x05;
-    case Class                 = 0x06;
+    case ClassName             = 0x06;
     case Double                = 0x07;
     case Float                 = 0x08;
     case List                  = 0x09;
