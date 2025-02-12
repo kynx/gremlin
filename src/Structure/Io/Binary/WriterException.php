@@ -38,4 +38,9 @@ final class WriterException extends InvalidArgumentException implements Exceptio
     {
         return new self($throwable->getMessage(), 0, $throwable);
     }
+
+    public static function allDataNotWritten(int $length, int $written): self
+    {
+        return new self(sprintf("Expected to write %d bytes, only wrote %d", $length, $written));
+    }
 }

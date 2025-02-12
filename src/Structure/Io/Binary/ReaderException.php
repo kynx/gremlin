@@ -22,4 +22,9 @@ final class ReaderException extends DomainException implements ExceptionInterfac
     {
         return new self(sprintf("Error reading stream: %s", $throwable->getMessage()), 0, $throwable);
     }
+
+    public static function allDataNotRead(int $expected, int $read): self
+    {
+        return new self(sprintf("Expected to read %d bytes from stream, got %s", $expected, $read));
+    }
 }

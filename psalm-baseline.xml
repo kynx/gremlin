@@ -30,6 +30,11 @@
       <code><![CDATA[$this]]></code>
     </InvalidArgument>
   </file>
+  <file src="src/Structure/Io/Binary/Serializer/ByteBufferSerializer.php">
+    <InvalidArgument>
+      <code><![CDATA[$this]]></code>
+    </InvalidArgument>
+  </file>
   <file src="src/Structure/Io/Binary/Serializer/ByteSerializer.php">
     <InvalidArgument>
       <code><![CDATA[$this]]></code>
@@ -144,6 +149,12 @@
       <code><![CDATA[serializableTypesProvider]]></code>
     </PossiblyUnusedMethod>
   </file>
+  <file src="test/Structure/Io/Binary/Serializer/ByteBufferSerializerTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[invalidTypesProvider]]></code>
+      <code><![CDATA[serializableTypesProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
   <file src="test/Structure/Io/Binary/Serializer/ByteSerializerTest.php">
     <PossiblyUnusedMethod>
       <code><![CDATA[invalidTypesProvider]]></code>
@@ -246,6 +257,20 @@
       <code><![CDATA[equalsProvider]]></code>
       <code><![CDATA[toStringProvider]]></code>
     </PossiblyUnusedMethod>
+  </file>
+  <file src="test/Structure/Type/ByteBufferTypeTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[outOfBoundsProvider]]></code>
+    </PossiblyUnusedMethod>
+    <RedundantCondition>
+      <code><![CDATA[assertIsClosedResource]]></code>
+      <code><![CDATA[assertIsResource]]></code>
+    </RedundantCondition>
+    <RedundantConditionGivenDocblockType>
+      <code><![CDATA[assertIsClosedResource]]></code>
+      <code><![CDATA[assertIsClosedResource]]></code>
+      <code><![CDATA[assertIsClosedResource]]></code>
+    </RedundantConditionGivenDocblockType>
   </file>
   <file src="test/Structure/Type/ByteTypeTest.php">
     <PossiblyUnusedMethod>
