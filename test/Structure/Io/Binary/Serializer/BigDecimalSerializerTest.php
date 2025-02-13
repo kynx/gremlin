@@ -52,11 +52,8 @@ final class BigDecimalSerializerTest extends AbstractSerializerTestCase
     public function testReadNegativeScale(): void
     {
         $expected = new BigDecimalType(BigDecimal::of("100"));
-        $stream   = $this->getStream();
-        $stream->write("\x00\xff\xff\xff\xfe\x00\x00\x00\x01\x01");
-        $stream->rewind();
-
-        $actual = $this->getSerializer()->read($stream, $this->getReader());
+        $stream   = $this->getStream("\x00\xff\xff\xff\xfe\x00\x00\x00\x01\x01");
+        $actual   = $this->getSerializer()->unserialize($stream, $this->getReader());
         self::assertEquals($expected, $actual);
     }
 }

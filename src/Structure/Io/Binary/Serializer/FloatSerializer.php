@@ -4,31 +4,25 @@ declare(strict_types=1);
 
 namespace Kynx\Gremlin\Structure\Io\Binary\Serializer;
 
+use Kynx\Gremlin\Structure\Io\Binary\BinaryType;
+use Kynx\Gremlin\Structure\Io\Binary\Exception\DomainException;
 use Kynx\Gremlin\Structure\Io\Binary\Reader;
 use Kynx\Gremlin\Structure\Io\Binary\Writer;
-use Kynx\Gremlin\Structure\Io\Binary\WriterException;
 use Kynx\Gremlin\Structure\Type\FloatType;
 use Kynx\Gremlin\Structure\Type\TypeInterface;
 use Kynx\Gremlin\Structure\Type\TypeInterface as T;
 use Psr\Http\Message\StreamInterface;
 
-use function assert;
-use function is_array;
-use function pack;
-use function unpack;
-
 /**
  * 4 bytes representing IEEE 754 single-precision binary floating-point format
  *
  * @see https://tinkerpop.apache.org/docs/3.7.3/dev/io/#_float_3
- *
- * @template-extends AbstractSerializer<FloatType>
  */
-final readonly class FloatSerializer extends AbstractSerializer
+final readonly class FloatSerializer implements SerializerInterface
 {
-    public function getGraphType(): GraphType
+    public function getBinaryType(): BinaryType
     {
-        return GraphType::Float;
+        return BinaryType::Float;
     }
 
     public function getPhpType(): string
@@ -36,30 +30,28 @@ final readonly class FloatSerializer extends AbstractSerializer
         return FloatType::class;
     }
 
-    public function read(StreamInterface $stream, Reader $reader): T
+    public function unserialize(StreamInterface $stream, Reader $reader): T
     {
-        if ($this->isNull($stream)) {
+        if ($reader->isNull($stream)) {
             return new FloatType(null);
         }
 
-        $unpacked = unpack('G', $stream->read(4));
-        assert(is_array($unpacked) && isset($unpacked[1]));
-        return new FloatType((float) $unpacked[1]);
+        return new FloatType($reader->readFloat($stream));
     }
 
-    public function write(StreamInterface $stream, TypeInterface $type, Writer $writer): void
+    public function serialize(StreamInterface $stream, TypeInterface $type, Writer $writer): void
     {
         if (! $type instanceof FloatType) {
-            throw WriterException::invalidType($this, $type);
+            throw DomainException::invalidType($this, $type);
         }
 
         $value = $type->getValue();
         if ($value === null) {
-            $this->writeNull($stream);
+            $writer->writeNull($stream);
             return;
         }
 
-        $this->writeNotNull($stream);
-        $stream->write(pack('G', $value));
+        $writer->writeNotNull($stream);
+        $writer->writeFloat($stream, $value);
     }
 }

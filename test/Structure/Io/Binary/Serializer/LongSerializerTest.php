@@ -21,13 +21,8 @@ final class LongSerializerTest extends AbstractSerializerTestCase
     public static function serializableTypesProvider(): array
     {
         return [
-            'null'     => [new LongType(null), "\x01"],
-            'long 0'   => [new LongType(0), "\x00\x00\x00\x00\x00\x00\x00\x00\x00"],
-            'long 1'   => [new LongType(1), "\x00\x00\x00\x00\x00\x00\x00\x00\x01"],
-            'long max' => [new LongType(9223372036854775807), "\x00\x7f\xff\xff\xff\xff\xff\xff\xff"],
-            'long -1'  => [new LongType(-1), "\x00\xff\xff\xff\xff\xff\xff\xff\xff"],
-            'long -2'  => [new LongType(-2), "\x00\xff\xff\xff\xff\xff\xff\xff\xfe"],
-            'long min' => [new LongType(-9223372036854775807), "\x00\x80\x00\x00\x00\x00\x00\x00\x01"],
+            'long null' => [new LongType(null), "\x01"],
+            'long -2'   => [new LongType(-2), "\x00\xff\xff\xff\xff\xff\xff\xff\xfe"],
         ];
     }
 

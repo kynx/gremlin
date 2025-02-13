@@ -4,35 +4,27 @@ declare(strict_types=1);
 
 namespace KynxTest\Gremlin\Structure\Io\Binary\Serializer;
 
-use GuzzleHttp\Psr7\Stream;
+use Kynx\Gremlin\Structure\Io\Binary\Exception\DomainException;
 use Kynx\Gremlin\Structure\Io\Binary\Reader;
 use Kynx\Gremlin\Structure\Io\Binary\Serializer\SerializerInterface;
 use Kynx\Gremlin\Structure\Io\Binary\Writer;
-use Kynx\Gremlin\Structure\Io\Binary\WriterException;
 use Kynx\Gremlin\Structure\Type\TypeInterface;
+use KynxTest\Gremlin\Structure\Io\Binary\StreamTrait;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\StreamInterface;
 
-use function fopen;
 use function is_float;
 use function is_nan;
-use function strlen;
 
 abstract class AbstractSerializerTestCase extends TestCase
 {
-    protected const string CRYING = "\xF0\x9F\x98\xAD"; // loudly crying face
-
-    protected ?StreamInterface $stream = null;
+    use StreamTrait;
 
     protected function tearDown(): void
     {
         parent::tearDown();
-
-        if ($this->stream instanceof StreamInterface) {
-            $this->stream->close();
-            $this->stream = null;
-        }
+        $this->tearDownStream();
     }
 
     abstract protected function getSerializer(): SerializerInterface;
@@ -50,21 +42,16 @@ abstract class AbstractSerializerTestCase extends TestCase
     #[DataProvider('serializableTypesProvider')]
     public function testWriteAppendsToStream(TypeInterface $type, string $expected): void
     {
-        $stream = $this->getStream();
-        $stream->write(self::CRYING);
-
-        $this->getSerializer()->write($stream, $type, $this->getWriter());
-        $stream->rewind();
-        self::assertSame(self::CRYING, $stream->read(strlen(self::CRYING)));
-        $actual = $stream->read(1024);
-        self::assertSame($expected, $actual);
+        $stream = $this->getWrittenStream();
+        $this->getSerializer()->serialize($stream, $type, $this->getWriter());
+        self::assertWrittenStreamSame($expected, $stream);
     }
 
     #[DataProvider('serializableTypesProvider')]
     public function testReadReturnsValue(TypeInterface $expected, string $bytes): void
     {
         $stream = $this->getStream($bytes, self::CRYING);
-        $actual = $this->getSerializer()->read($stream, $this->getReader());
+        $actual = $this->getSerializer()->unserialize($stream, $this->getReader());
 
         /** @var mixed $value */
         $value = $expected->getValue();
@@ -78,28 +65,14 @@ abstract class AbstractSerializerTestCase extends TestCase
             self::assertEquals($expected, $actual);
         }
 
-        self::assertSame(self::CRYING, $stream->read(1024));
+        self::assertHasRemainingStream($stream);
     }
 
     #[DataProvider('invalidTypesProvider')]
     public function testWriteInvalidValueThrowsException(TypeInterface $type): void
     {
-        self::expectException(WriterException::class);
-        $this->getSerializer()->write(self::createStub(StreamInterface::class), $type, $this->getWriter());
-    }
-
-    protected function getStream(string ...$chunks): Stream
-    {
-        $resource = fopen('php://memory', 'r+');
-        self::assertIsResource($resource);
-
-        $this->stream = new Stream($resource);
-        foreach ($chunks as $chunk) {
-            $this->stream->write($chunk);
-        }
-        $this->stream->rewind();
-
-        return $this->stream;
+        self::expectException(DomainException::class);
+        $this->getSerializer()->serialize(self::createStub(StreamInterface::class), $type, $this->getWriter());
     }
 
     protected function getReader(): Reader

@@ -10,96 +10,6 @@
       <code><![CDATA[Graph]]></code>
     </UnusedClass>
   </file>
-  <file src="src/Structure/Io/Binary/Reader.php">
-    <PossiblyUnusedMethod>
-      <code><![CDATA[getReader]]></code>
-    </PossiblyUnusedMethod>
-  </file>
-  <file src="src/Structure/Io/Binary/Serializer/BigDecimalSerializer.php">
-    <InvalidArgument>
-      <code><![CDATA[$this]]></code>
-    </InvalidArgument>
-  </file>
-  <file src="src/Structure/Io/Binary/Serializer/BigIntegerSerializer.php">
-    <InvalidArgument>
-      <code><![CDATA[$this]]></code>
-    </InvalidArgument>
-  </file>
-  <file src="src/Structure/Io/Binary/Serializer/BooleanSerializer.php">
-    <InvalidArgument>
-      <code><![CDATA[$this]]></code>
-    </InvalidArgument>
-  </file>
-  <file src="src/Structure/Io/Binary/Serializer/ByteBufferSerializer.php">
-    <InvalidArgument>
-      <code><![CDATA[$this]]></code>
-    </InvalidArgument>
-  </file>
-  <file src="src/Structure/Io/Binary/Serializer/ByteSerializer.php">
-    <InvalidArgument>
-      <code><![CDATA[$this]]></code>
-    </InvalidArgument>
-  </file>
-  <file src="src/Structure/Io/Binary/Serializer/CharSerializer.php">
-    <InvalidArgument>
-      <code><![CDATA[$this]]></code>
-    </InvalidArgument>
-  </file>
-  <file src="src/Structure/Io/Binary/Serializer/ClassSerializer.php">
-    <InvalidArgument>
-      <code><![CDATA[$this]]></code>
-    </InvalidArgument>
-  </file>
-  <file src="src/Structure/Io/Binary/Serializer/DateSerializer.php">
-    <InvalidArgument>
-      <code><![CDATA[$this]]></code>
-    </InvalidArgument>
-  </file>
-  <file src="src/Structure/Io/Binary/Serializer/DoubleSerializer.php">
-    <InvalidArgument>
-      <code><![CDATA[$this]]></code>
-    </InvalidArgument>
-  </file>
-  <file src="src/Structure/Io/Binary/Serializer/FloatSerializer.php">
-    <InvalidArgument>
-      <code><![CDATA[$this]]></code>
-    </InvalidArgument>
-  </file>
-  <file src="src/Structure/Io/Binary/Serializer/IntSerializer.php">
-    <InvalidArgument>
-      <code><![CDATA[$this]]></code>
-    </InvalidArgument>
-  </file>
-  <file src="src/Structure/Io/Binary/Serializer/LongSerializer.php">
-    <InvalidArgument>
-      <code><![CDATA[$this]]></code>
-    </InvalidArgument>
-  </file>
-  <file src="src/Structure/Io/Binary/Serializer/ShortSerializer.php">
-    <InvalidArgument>
-      <code><![CDATA[$this]]></code>
-    </InvalidArgument>
-  </file>
-  <file src="src/Structure/Io/Binary/Serializer/StringSerializer.php">
-    <InvalidArgument>
-      <code><![CDATA[$this]]></code>
-    </InvalidArgument>
-  </file>
-  <file src="src/Structure/Io/Binary/Serializer/TimestampSerializer.php">
-    <InvalidArgument>
-      <code><![CDATA[$this]]></code>
-    </InvalidArgument>
-  </file>
-  <file src="src/Structure/Io/Binary/Serializer/UnspecifiedNullObjectSerializer.php">
-    <InvalidArgument>
-      <code><![CDATA[$this]]></code>
-    </InvalidArgument>
-  </file>
-  <file src="src/Structure/Io/Binary/Writer.php">
-    <PossiblyUnusedMethod>
-      <code><![CDATA[write]]></code>
-    </PossiblyUnusedMethod>
-  </file>
   <file src="src/Structure/Path.php">
     <MixedPropertyFetch>
       <code><![CDATA[$other->labels]]></code>
@@ -128,6 +38,31 @@
   <file src="test/Structure/EdgeTest.php">
     <PossiblyUnusedMethod>
       <code><![CDATA[equalsProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="test/Structure/Io/Binary/NumberProviderTrait.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[byteProvider]]></code>
+      <code><![CDATA[byteProvider]]></code>
+      <code><![CDATA[doubleProvider]]></code>
+      <code><![CDATA[doubleProvider]]></code>
+      <code><![CDATA[floatProvider]]></code>
+      <code><![CDATA[floatProvider]]></code>
+      <code><![CDATA[intProvider]]></code>
+      <code><![CDATA[intProvider]]></code>
+      <code><![CDATA[longProvider]]></code>
+      <code><![CDATA[longProvider]]></code>
+      <code><![CDATA[shortProvider]]></code>
+      <code><![CDATA[shortProvider]]></code>
+      <code><![CDATA[uIntProvider]]></code>
+      <code><![CDATA[uIntProvider]]></code>
+      <code><![CDATA[uShortProvider]]></code>
+      <code><![CDATA[uShortProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="test/Structure/Io/Binary/ReaderTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[isNullProvider]]></code>
     </PossiblyUnusedMethod>
   </file>
   <file src="test/Structure/Io/Binary/Serializer/AbstractSerializerTestCase.php">
@@ -201,17 +136,6 @@
       <code><![CDATA[invalidTypesProvider]]></code>
       <code><![CDATA[serializableTypesProvider]]></code>
     </PossiblyUnusedMethod>
-  </file>
-  <file src="test/Structure/Io/Binary/Serializer/IntUtilTest.php">
-    <PossiblyUnusedMethod>
-      <code><![CDATA[int16Provider]]></code>
-      <code><![CDATA[int32Provider]]></code>
-      <code><![CDATA[uInt16Provider]]></code>
-      <code><![CDATA[uInt32Provider]]></code>
-    </PossiblyUnusedMethod>
-    <TooManyArguments>
-      <code><![CDATA[IntUtil::unpackUInt($value, 16)]]></code>
-    </TooManyArguments>
   </file>
   <file src="test/Structure/Io/Binary/Serializer/LongSerializerTest.php">
     <PossiblyUnusedMethod>

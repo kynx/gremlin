@@ -4,18 +4,17 @@ declare(strict_types=1);
 
 namespace Kynx\Gremlin\Structure\Io\Binary\Serializer;
 
+use Kynx\Gremlin\Structure\Io\Binary\BinaryType;
+use Kynx\Gremlin\Structure\Io\Binary\Exception\DomainException;
+use Kynx\Gremlin\Structure\Io\Binary\Exception\UnderflowException;
 use Kynx\Gremlin\Structure\Io\Binary\Reader;
-use Kynx\Gremlin\Structure\Io\Binary\ReaderException;
-use Kynx\Gremlin\Structure\Io\Binary\Serializer\AbstractSerializer;
 use Kynx\Gremlin\Structure\Io\Binary\Writer;
-use Kynx\Gremlin\Structure\Io\Binary\WriterException;
 use Kynx\Gremlin\Structure\Type\ByteBufferType;
 use Kynx\Gremlin\Structure\Type\ByteBufferTypeInterface;
 use Kynx\Gremlin\Structure\Type\TypeInterface;
 use Psr\Http\Message\StreamInterface;
 
 use function assert;
-use function fclose;
 use function fopen;
 use function fwrite;
 use function is_resource;
@@ -27,10 +26,8 @@ use function strlen;
  * Sequence of unsigned 8-bit integers in format `{length}{value}`
  *
  * @see https://tinkerpop.apache.org/docs/3.7.3/dev/io/#_bytebuffer_3
- *
- * @template-extends AbstractSerializer<ByteBufferTypeInterface>
  */
-final readonly class ByteBufferSerializer extends AbstractSerializer
+final readonly class ByteBufferSerializer implements SerializerInterface
 {
     private const int CHUNK_SIZE = 8192;
 
@@ -41,9 +38,9 @@ final readonly class ByteBufferSerializer extends AbstractSerializer
     {
     }
 
-    public function getGraphType(): GraphType
+    public function getBinaryType(): BinaryType
     {
-        return GraphType::ByteBuffer;
+        return BinaryType::ByteBuffer;
     }
 
     public function getPhpType(): string
@@ -51,13 +48,13 @@ final readonly class ByteBufferSerializer extends AbstractSerializer
         return ByteBufferType::class;
     }
 
-    public function read(StreamInterface $stream, Reader $reader): ByteBufferTypeInterface
+    public function unserialize(StreamInterface $stream, Reader $reader): ByteBufferTypeInterface
     {
-        if ($this->isNull($stream)) {
+        if ($reader->isNull($stream)) {
             return $this->byteBufferClass::ofString('');
         }
 
-        $length = IntUtil::unpackUInt($stream->read(4));
+        $length = $reader->readUInt($stream);
         if ($length === 0) {
             return $this->byteBufferClass::ofString('');
         }
@@ -67,33 +64,25 @@ final readonly class ByteBufferSerializer extends AbstractSerializer
         assert(is_resource($resource));
 
         while ($read < $length && ! $stream->eof()) {
-            $bytes = $stream->read(min(self::CHUNK_SIZE, $length - $read));
-            if ($bytes === '') {
-                break;
-            }
+            $bytes = $reader->readBytes($stream, min(self::CHUNK_SIZE, $length - $read));
 
             fwrite($resource, $bytes);
             $read += strlen($bytes);
-        }
-
-        if ($read < $length) {
-            @fclose($resource);
-            throw ReaderException::allDataNotRead($length, $read);
         }
         rewind($resource);
 
         return $this->byteBufferClass::ofResource($resource);
     }
 
-    public function write(StreamInterface $stream, TypeInterface $type, Writer $writer): void
+    public function serialize(StreamInterface $stream, TypeInterface $type, Writer $writer): void
     {
         if (! $type instanceof ByteBufferTypeInterface) {
-            throw WriterException::invalidType($this, $type);
+            throw DomainException::invalidType($this, $type);
         }
 
-        $this->writeNotNull($stream);
+        $writer->writeNotNull($stream);
         $length = $type->getLength();
-        $stream->write(IntUtil::packUInt($length));
+        $writer->writeUInt($stream, $length);
         $written = 0;
 
         while ($written < $length && ! $type->eof()) {
@@ -102,12 +91,13 @@ final readonly class ByteBufferSerializer extends AbstractSerializer
                 break;
             }
 
-            $stream->write($bytes);
-            $written += strlen($bytes);
+            $len = strlen($bytes);
+            $writer->writeBytes($stream, $bytes, $len);
+            $written += $len;
         }
 
         if ($written < $length) {
-            throw WriterException::allDataNotWritten($length, $written);
+            throw UnderflowException::dataNotWritten($length, $written);
         }
     }
 }

@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Kynx\Gremlin\Structure\Io\Binary\Serializer;
 
+use Kynx\Gremlin\Structure\Io\Binary\BinaryType;
+use Kynx\Gremlin\Structure\Io\Binary\Exception\DomainException;
 use Kynx\Gremlin\Structure\Io\Binary\Reader;
 use Kynx\Gremlin\Structure\Io\Binary\Writer;
-use Kynx\Gremlin\Structure\Io\Binary\WriterException;
 use Kynx\Gremlin\Structure\Type\TypeInterface;
 use Kynx\Gremlin\Structure\Type\UnspecifiedNullObject;
 use Psr\Http\Message\StreamInterface;
@@ -15,14 +16,12 @@ use Psr\Http\Message\StreamInterface;
  * Represented using the null {value_flag} set and no sequence of bytes
  *
  * @see https://tinkerpop.apache.org/docs/3.7.3/dev/io/#_unspecified_null_object
- *
- * @template-extends AbstractSerializer<UnspecifiedNullObject>
  */
-final readonly class UnspecifiedNullObjectSerializer extends AbstractSerializer
+final readonly class UnspecifiedNullObjectSerializer implements SerializerInterface
 {
-    public function getGraphType(): GraphType
+    public function getBinaryType(): BinaryType
     {
-        return GraphType::UnspecifiedNullObject;
+        return BinaryType::UnspecifiedNullObject;
     }
 
     public function getPhpType(): string
@@ -30,15 +29,15 @@ final readonly class UnspecifiedNullObjectSerializer extends AbstractSerializer
         return UnspecifiedNullObject::class;
     }
 
-    public function read(StreamInterface $stream, Reader $reader): UnspecifiedNullObject
+    public function unserialize(StreamInterface $stream, Reader $reader): UnspecifiedNullObject
     {
         return new UnspecifiedNullObject();
     }
 
-    public function write(StreamInterface $stream, TypeInterface $type, Writer $writer): void
+    public function serialize(StreamInterface $stream, TypeInterface $type, Writer $writer): void
     {
         if (! $type instanceof UnspecifiedNullObject) {
-            throw WriterException::invalidType($this, $type);
+            throw DomainException::invalidType($this, $type);
         }
     }
 }

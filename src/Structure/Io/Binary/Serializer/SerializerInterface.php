@@ -4,45 +4,46 @@ declare(strict_types=1);
 
 namespace Kynx\Gremlin\Structure\Io\Binary\Serializer;
 
+use Kynx\Gremlin\Structure\Io\Binary\BinaryType;
 use Kynx\Gremlin\Structure\Io\Binary\Reader;
-use Kynx\Gremlin\Structure\Io\Binary\ReaderException;
 use Kynx\Gremlin\Structure\Io\Binary\Writer;
-use Kynx\Gremlin\Structure\Io\Binary\WriterException;
 use Kynx\Gremlin\Structure\Type\TypeInterface;
 use Psr\Http\Message\StreamInterface;
+use Symfony\Component\Filesystem\Exception\IOException;
 
 /**
- * @see https://tinkerpop.apache.org/docs/3.7.3/dev/io/#_data_type_formats
+ * Serialize and unserialize graph structures
  *
- * @template T of TypeInterface
+ * Implementations MUST NOT mutate the stream they receive: instead they must use the `$reader` and `$writer` to safely
+ * perform operations on it.
+ *
+ * @see https://tinkerpop.apache.org/docs/3.7.3/dev/io/#_data_type_formats
  */
 interface SerializerInterface
 {
     /**
-     * Returns binary type that the serializer reads
+     * Returns binary type that the serializer handles
      */
-    public function getGraphType(): GraphType;
+    public function getBinaryType(): BinaryType;
 
     /**
-     * Returns FQCN of type the serializer writes
+     * Returns FQCN of the type the serializer handles
      *
-     * @return class-string<T>
+     * @return class-string<TypeInterface>
      */
     public function getPhpType(): string;
 
     /**
-     * Returns PHP type from stream's `{type_info}{value_flag}{value}`
+     * Returns type from stream's `{type_info}{value_flag}{value}`
      *
-     * @return T
-     * @throws ReaderException
+     * @throws IOException
      */
-    public function read(StreamInterface $stream, Reader $reader): TypeInterface;
+    public function unserialize(StreamInterface $stream, Reader $reader): TypeInterface;
 
     /**
-     * Writes binary string representation of the `{type_info}{value_flag}{value}` to stream
+     * Writes binary representation of the type in form `{type_info}{value_flag}{value}`
      *
-     * @param T $type
-     * @throws WriterException
+     * @throws IOException
      */
-    public function write(StreamInterface $stream, TypeInterface $type, Writer $writer): void;
+    public function serialize(StreamInterface $stream, TypeInterface $type, Writer $writer): void;
 }

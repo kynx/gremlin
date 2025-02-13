@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Kynx\Gremlin\Structure\Io\Binary\Serializer;
 
+use Kynx\Gremlin\Structure\Io\Binary\BinaryType;
+use Kynx\Gremlin\Structure\Io\Binary\Exception\DomainException;
 use Kynx\Gremlin\Structure\Io\Binary\Reader;
 use Kynx\Gremlin\Structure\Io\Binary\Writer;
-use Kynx\Gremlin\Structure\Io\Binary\WriterException;
 use Kynx\Gremlin\Structure\Type\TimestampType;
 use Kynx\Gremlin\Structure\Type\TypeInterface;
 use Psr\Http\Message\StreamInterface;
@@ -15,14 +16,12 @@ use Psr\Http\Message\StreamInterface;
  * An 8-byte two’s complement integer
  *
  * @see https://tinkerpop.apache.org/docs/3.7.3/dev/io/#_long_3
- *
- * @template-extends AbstractSerializer<TimestampType>
  */
-final readonly class TimestampSerializer extends AbstractSerializer
+final readonly class TimestampSerializer implements SerializerInterface
 {
-    public function getGraphType(): GraphType
+    public function getBinaryType(): BinaryType
     {
-        return GraphType::Timestamp;
+        return BinaryType::Timestamp;
     }
 
     public function getPhpType(): string
@@ -30,28 +29,28 @@ final readonly class TimestampSerializer extends AbstractSerializer
         return TimestampType::class;
     }
 
-    public function read(StreamInterface $stream, Reader $reader): TimestampType
+    public function unserialize(StreamInterface $stream, Reader $reader): TimestampType
     {
-        if ($this->isNull($stream)) {
+        if ($reader->isNull($stream)) {
             return new TimestampType(null);
         }
 
-        return new TimestampType(IntUtil::unpackInt($stream->read(TimestampType::getSize())));
+        return new TimestampType($reader->readLong($stream));
     }
 
-    public function write(StreamInterface $stream, TypeInterface $type, Writer $writer): void
+    public function serialize(StreamInterface $stream, TypeInterface $type, Writer $writer): void
     {
         if (! $type instanceof TimestampType) {
-            throw WriterException::invalidType($this, $type);
+            throw DomainException::invalidType($this, $type);
         }
 
         $value = $type->getValue();
         if ($value === null) {
-            $this->writeNull($stream);
+            $writer->writeNull($stream);
             return;
         }
 
-        $this->writeNotNull($stream);
-        $stream->write(IntUtil::packInt($value, TimestampType::getSize() * 8));
+        $writer->writeNotNull($stream);
+        $writer->writeLong($stream, $value);
     }
 }

@@ -21,10 +21,10 @@ final class StringSerializerTest extends AbstractSerializerTestCase
     public static function serializableTypesProvider(): array
     {
         return [
-            'null'               => [new StringType(null), "\x01"],
-            'empty'              => [new StringType(''), "\x00\x00\x00\x00\x00"],
-            'single byte string' => [new StringType("abc"), "\x00\x00\x00\x00\x03\x61\x62\x63"],
-            'multi-byte string'  => [new StringType('ࠀ'), "\x00\x00\x00\x00\x03\xe0\xa0\x80"],
+            'string null'        => [new StringType(null), "\x01"],
+            'string empty'       => [new StringType(''), "\x00\x00\x00\x00\x00"],
+            'string single byte' => [new StringType("abc"), "\x00\x00\x00\x00\x03\x61\x62\x63"],
+            'string multi-byte'  => [new StringType('ࠀ'), "\x00\x00\x00\x00\x03\xe0\xa0\x80"],
         ];
     }
 

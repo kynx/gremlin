@@ -8,10 +8,10 @@ use Brick\Math\BigDecimal;
 use Brick\Math\BigInteger;
 use Brick\Math\Exception\MathException;
 use Brick\Math\Exception\NegativeNumberException;
+use Kynx\Gremlin\Structure\Io\Binary\BinaryType;
+use Kynx\Gremlin\Structure\Io\Binary\Exception\DomainException;
 use Kynx\Gremlin\Structure\Io\Binary\Reader;
-use Kynx\Gremlin\Structure\Io\Binary\ReaderException;
 use Kynx\Gremlin\Structure\Io\Binary\Writer;
-use Kynx\Gremlin\Structure\Io\Binary\WriterException;
 use Kynx\Gremlin\Structure\Type\BigDecimalType;
 use Kynx\Gremlin\Structure\Type\TypeInterface;
 use Psr\Http\Message\StreamInterface;
@@ -24,14 +24,12 @@ use function strlen;
  * 32-bit integer scale
  *
  * @see https://tinkerpop.apache.org/docs/3.7.3/dev/io/#_bigdecimal_3
- *
- * @template-extends AbstractSerializer<BigDecimalType>
  */
-final readonly class BigDecimalSerializer extends AbstractSerializer
+final readonly class BigDecimalSerializer implements SerializerInterface
 {
-    public function getGraphType(): GraphType
+    public function getBinaryType(): BinaryType
     {
-        return GraphType::BigDecimal;
+        return BinaryType::BigDecimal;
     }
 
     public function getPhpType(): string
@@ -39,17 +37,17 @@ final readonly class BigDecimalSerializer extends AbstractSerializer
         return BigDecimalType::class;
     }
 
-    public function read(StreamInterface $stream, Reader $reader): BigDecimalType
+    public function unserialize(StreamInterface $stream, Reader $reader): BigDecimalType
     {
-        if ($this->isNull($stream)) {
+        if ($reader->isNull($stream)) {
             return new BigDecimalType(null);
         }
 
-        $scale  = IntUtil::unpackInt($stream->read(4));
-        $length = IntUtil::unpackUInt($stream->read(4));
+        $scale  = $reader->readInt($stream);
+        $length = $reader->readUInt($stream);
 
         try {
-            $bigInt = BigInteger::fromBytes($stream->read($length));
+            $bigInt = BigInteger::fromBytes($reader->readBytes($stream, $length));
 
             // @see https://github.com/brick/math/issues/86
             if ($scale < 0) {
@@ -57,34 +55,35 @@ final readonly class BigDecimalSerializer extends AbstractSerializer
                 $scale  = 0;
             }
         } catch (MathException $exception) {
-            throw ReaderException::fromThrowable($exception);
+            throw DomainException::ofThrowable($exception);
         }
 
         return new BigDecimalType(BigDecimal::ofUnscaledValue($bigInt, $scale));
     }
 
-    public function write(StreamInterface $stream, TypeInterface $type, Writer $writer): void
+    public function serialize(StreamInterface $stream, TypeInterface $type, Writer $writer): void
     {
         if (! $type instanceof BigDecimalType) {
-            throw WriterException::invalidType($this, $type);
+            throw DomainException::invalidType($this, $type);
         }
 
         $value = $type->getValue();
         if ($value === null) {
-            $this->writeNull($stream);
+            $writer->writeNull($stream);
             return;
         }
 
-        $this->writeNotNull($stream);
-        $stream->write(IntUtil::packInt($value->getScale()));
+        $writer->writeNotNull($stream);
+        $writer->writeInt($stream, $value->getScale());
 
         try {
             $bytes = $value->getUnscaledValue()->toBytes();
         } catch (NegativeNumberException $exception) {
-            throw WriterException::fromThrowable($exception);
+            throw DomainException::ofThrowable($exception);
         }
 
-        $stream->write(IntUtil::packUInt(strlen($bytes)));
-        $stream->write($bytes);
+        $length = strlen($bytes);
+        $writer->writeUInt($stream, $length);
+        $writer->writeBytes($stream, $bytes, $length);
     }
 }

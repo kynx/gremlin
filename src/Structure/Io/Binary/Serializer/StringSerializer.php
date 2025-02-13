@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Kynx\Gremlin\Structure\Io\Binary\Serializer;
 
+use Kynx\Gremlin\Structure\Io\Binary\BinaryType;
+use Kynx\Gremlin\Structure\Io\Binary\Exception\DomainException;
 use Kynx\Gremlin\Structure\Io\Binary\Reader;
 use Kynx\Gremlin\Structure\Io\Binary\Writer;
-use Kynx\Gremlin\Structure\Io\Binary\WriterException;
 use Kynx\Gremlin\Structure\Type\StringType;
 use Kynx\Gremlin\Structure\Type\TypeInterface;
 use Psr\Http\Message\StreamInterface;
@@ -17,14 +18,12 @@ use function strlen;
  * A UTF-8 encoded string in format `{length}{text_value}`
  *
  * @see https://tinkerpop.apache.org/docs/3.7.3/dev/io/#_string
- *
- * @template-extends AbstractSerializer<StringType>
  */
-final readonly class StringSerializer extends AbstractSerializer
+final readonly class StringSerializer implements SerializerInterface
 {
-    public function getGraphType(): GraphType
+    public function getBinaryType(): BinaryType
     {
-        return GraphType::String;
+        return BinaryType::String;
     }
 
     public function getPhpType(): string
@@ -32,29 +31,30 @@ final readonly class StringSerializer extends AbstractSerializer
         return StringType::class;
     }
 
-    public function read(StreamInterface $stream, Reader $reader): StringType
+    public function unserialize(StreamInterface $stream, Reader $reader): StringType
     {
-        if ($this->isNull($stream)) {
+        if ($reader->isNull($stream)) {
             return new StringType(null);
         }
 
-        $length = IntUtil::unpackUInt($stream->read(4));
-        return new StringType($stream->read($length));
+        return new StringType($reader->readBytes($stream, $reader->readUInt($stream)));
     }
 
-    public function write(StreamInterface $stream, TypeInterface $type, Writer $writer): void
+    public function serialize(StreamInterface $stream, TypeInterface $type, Writer $writer): void
     {
         if (! $type instanceof StringType) {
-            throw WriterException::invalidType($this, $type);
+            throw DomainException::invalidType($this, $type);
         }
 
         $value = $type->getValue();
         if ($value === null) {
-            $this->writeNull($stream);
+            $writer->writeNull($stream);
             return;
         }
 
-        $this->writeNotNull($stream);
-        $stream->write(IntUtil::packUInt(strlen($value)) . $value);
+        $length = strlen($value);
+        $writer->writeNotNull($stream);
+        $writer->writeUInt($stream, $length);
+        $writer->writeBytes($stream, $value, $length);
     }
 }

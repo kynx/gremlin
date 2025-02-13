@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Kynx\Gremlin\Structure\Io\Binary\Serializer;
 
+use Kynx\Gremlin\Structure\Io\Binary\BinaryType;
+use Kynx\Gremlin\Structure\Io\Binary\Exception\DomainException;
 use Kynx\Gremlin\Structure\Io\Binary\Reader;
 use Kynx\Gremlin\Structure\Io\Binary\Writer;
-use Kynx\Gremlin\Structure\Io\Binary\WriterException;
 use Kynx\Gremlin\Structure\Type\ShortType;
 use Kynx\Gremlin\Structure\Type\TypeInterface;
 use Psr\Http\Message\StreamInterface;
@@ -15,14 +16,12 @@ use Psr\Http\Message\StreamInterface;
  * A 2-byte two’s complement integer
  *
  * @see https://tinkerpop.apache.org/docs/3.7.3/dev/io/#_short_3
- *
- * @template-extends AbstractSerializer<ShortType>
  */
-final readonly class ShortSerializer extends AbstractSerializer
+final readonly class ShortSerializer implements SerializerInterface
 {
-    public function getGraphType(): GraphType
+    public function getBinaryType(): BinaryType
     {
-        return GraphType::Short;
+        return BinaryType::Short;
     }
 
     public function getPhpType(): string
@@ -30,28 +29,28 @@ final readonly class ShortSerializer extends AbstractSerializer
         return ShortType::class;
     }
 
-    public function read(StreamInterface $stream, Reader $reader): ShortType
+    public function unserialize(StreamInterface $stream, Reader $reader): ShortType
     {
-        if ($this->isNull($stream)) {
+        if ($reader->isNull($stream)) {
             return new ShortType(null);
         }
 
-        return new ShortType(IntUtil::unpackInt($stream->read(2)));
+        return new ShortType($reader->readShort($stream));
     }
 
-    public function write(StreamInterface $stream, TypeInterface $type, Writer $writer): void
+    public function serialize(StreamInterface $stream, TypeInterface $type, Writer $writer): void
     {
         if (! $type instanceof ShortType) {
-            throw WriterException::invalidType($this, $type);
+            throw DomainException::invalidType($this, $type);
         }
 
         $value = $type->getValue();
         if ($value === null) {
-            $this->writeNull($stream);
+            $writer->writeNull($stream);
             return;
         }
 
-        $this->writeNotNull($stream);
-        $stream->write(IntUtil::packInt($value, 16));
+        $writer->writeNotNull($stream);
+        $writer->writeShort($stream, $value);
     }
 }

@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Kynx\Gremlin\Structure\Io\Binary\Serializer;
+namespace Kynx\Gremlin\Structure\Io\Binary;
 
-use Psr\Http\Message\StreamInterface;
+use Kynx\Gremlin\Structure\Io\Binary\Exception\DomainException;
+use ValueError;
 
 use function chr;
 use function ord;
@@ -12,8 +13,11 @@ use function ord;
 /**
  * @see https://tinkerpop.apache.org/docs/3.7.3/dev/io/#_data_type_formats
  */
-enum GraphType: int
+enum BinaryType: int
 {
+    public const string FLAG_NONE = "\x00";
+    public const string FLAG_NULL = "\x01";
+
     case Int                   = 0x01;
     case Long                  = 0x02;
     case String                = 0x03;
@@ -79,12 +83,16 @@ enum GraphType: int
     case ZonedDateTime         = 0x8d;
     case ZoneOffset            = 0x8e;
 
-    public static function fromStream(StreamInterface $stream): self
+    public static function fromChr(string $chr): self
     {
-        return self::from(ord($stream->read(1)));
+        try {
+            return self::from(ord($chr));
+        } catch (ValueError $exception) {
+            throw DomainException::unknownBinaryType(ord($chr), $exception);
+        }
     }
 
-    public function getByte(): string
+    public function toChr(): string
     {
         return chr($this->value);
     }

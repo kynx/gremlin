@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace KynxTest\Gremlin\Structure\Io\Binary\Serializer;
 
-use Kynx\Gremlin\Structure\Io\Binary\ReaderException;
+use Kynx\Gremlin\Structure\Io\Binary\Exception\UnderflowException;
 use Kynx\Gremlin\Structure\Io\Binary\Serializer\ByteBufferSerializer;
-use Kynx\Gremlin\Structure\Io\Binary\WriterException;
 use Kynx\Gremlin\Structure\Type\ByteBufferType;
 use Kynx\Gremlin\Structure\Type\ByteType;
 use Kynx\Gremlin\Structure\Type\TypeInterface;
@@ -44,13 +43,11 @@ final class ByteBufferSerializerTest extends AbstractSerializerTestCase
     #[DataProvider('serializableTypesProvider')]
     public function testReadReturnsValue(TypeInterface $expected, string $bytes): void
     {
-        $stream = $this->getStream();
-        $stream->write($bytes);
-        $stream->rewind();
-
-        $actual = $this->getSerializer()->read($stream, $this->getReader());
+        $stream = $this->getStream($bytes . self::CRYING);
+        $actual = $this->getSerializer()->unserialize($stream, $this->getReader());
 
         self::assertSame($expected->getValue(), $actual->getValue());
+        self::assertSame(self::CRYING, $stream->read(1024));
     }
 
     public static function serializableTypesProvider(): array
@@ -75,7 +72,7 @@ final class ByteBufferSerializerTest extends AbstractSerializerTestCase
         $stream     = $this->getStream("\x01");
         $serializer = $this->getSerializer();
 
-        $actual = $serializer->read($stream, $this->getReader());
+        $actual = $serializer->unserialize($stream, $this->getReader());
         self::assertSame(0, $actual->getLength());
         self::assertSame("", $actual->getValue());
     }
@@ -88,9 +85,9 @@ final class ByteBufferSerializerTest extends AbstractSerializerTestCase
         );
         $serializer = $this->getSerializer();
 
-        self::expectException(ReaderException::class);
-        self::expectExceptionMessage("Expected to read 1 bytes from stream, got 0");
-        $serializer->read($stream, $this->getReader());
+        self::expectException(UnderflowException::class);
+        self::expectExceptionMessage("No more data in stream");
+        $serializer->unserialize($stream, $this->getReader());
     }
 
     public function testReadInvalidLengthThrowsException(): void
@@ -102,9 +99,9 @@ final class ByteBufferSerializerTest extends AbstractSerializerTestCase
         );
         $serializer = $this->getSerializer();
 
-        self::expectException(ReaderException::class);
-        self::expectExceptionMessage("Expected to read 8193 bytes from stream, got 8192");
-        $serializer->read($stream, $this->getReader());
+        self::expectException(UnderflowException::class);
+        self::expectExceptionMessage("No more data in stream");
+        $serializer->unserialize($stream, $this->getReader());
     }
 
     public function testWriteDoesNotWriteBeyondLength(): void
@@ -115,10 +112,8 @@ final class ByteBufferSerializerTest extends AbstractSerializerTestCase
         $stream     = $this->getStream();
         $serializer = $this->getSerializer();
 
-        $serializer->write($stream, $buffer, $this->getWriter());
-        $stream->rewind();
-        $actual = $stream->getContents();
-        self::assertSame($expected, $actual);
+        $serializer->serialize($stream, $buffer, $this->getWriter());
+        self::assertStreamSame($expected, $stream);
     }
 
     public function testWriteEofBufferThrowsException(): void
@@ -128,9 +123,9 @@ final class ByteBufferSerializerTest extends AbstractSerializerTestCase
         fclose($resource);
         $serializer = $this->getSerializer();
 
-        self::expectException(WriterException::class);
-        self::expectExceptionMessage("Expected to write 1 bytes, only wrote 0");
-        $serializer->write($this->getStream(), $buffer, $this->getWriter());
+        self::expectException(UnderflowException::class);
+        self::expectExceptionMessage("Expected to write 1 bytes, sent 0");
+        $serializer->serialize($this->getStream(), $buffer, $this->getWriter());
     }
 
     public function testWriteInvalidLengthThrowsException(): void
@@ -139,9 +134,9 @@ final class ByteBufferSerializerTest extends AbstractSerializerTestCase
         $buffer     = ByteBufferType::ofResource($resource, 8193);
         $serializer = $this->getSerializer();
 
-        self::expectException(WriterException::class);
-        self::expectExceptionMessage("Expected to write 8193 bytes, only wrote 8192");
-        $serializer->write($this->getStream(), $buffer, $this->getWriter());
+        self::expectException(UnderflowException::class);
+        self::expectExceptionMessage("Expected to write 8193 bytes, sent 8192");
+        $serializer->serialize($this->getStream(), $buffer, $this->getWriter());
     }
 
     /**

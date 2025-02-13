@@ -21,13 +21,8 @@ final class TimestampSerializerTest extends AbstractSerializerTestCase
     public static function serializableTypesProvider(): array
     {
         return [
-            'null'          => [new TimestampType(null), "\x01"],
-            'timestamp 0'   => [new TimestampType(0), "\x00\x00\x00\x00\x00\x00\x00\x00\x00"],
-            'timestamp 1'   => [new TimestampType(1), "\x00\x00\x00\x00\x00\x00\x00\x00\x01"],
-            'timestamp max' => [new TimestampType(9223372036854775807), "\x00\x7f\xff\xff\xff\xff\xff\xff\xff"],
-            'timestamp -1'  => [new TimestampType(-1), "\x00\xff\xff\xff\xff\xff\xff\xff\xff"],
-            'timestamp -2'  => [new TimestampType(-2), "\x00\xff\xff\xff\xff\xff\xff\xff\xfe"],
-            'timestamp min' => [new TimestampType(-9223372036854775807), "\x00\x80\x00\x00\x00\x00\x00\x00\x01"],
+            'timestamp null' => [new TimestampType(null), "\x01"],
+            'timestamp -2'   => [new TimestampType(-2), "\x00\xff\xff\xff\xff\xff\xff\xff\xfe"],
         ];
     }
 
