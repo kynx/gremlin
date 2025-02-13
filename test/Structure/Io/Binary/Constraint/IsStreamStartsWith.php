@@ -8,15 +8,15 @@ use PHPUnit\Framework\Constraint\Constraint;
 use PHPUnit\Framework\Constraint\IsIdentical;
 use Psr\Http\Message\StreamInterface;
 
-final class IsStreamContents extends Constraint
+final class IsStreamStartsWith extends Constraint
 {
     private readonly IsIdentical $isIdentical;
 
-    public function __construct(mixed $value)
+    public function __construct(mixed $value, private readonly int $length = 1)
     {
         if ($value instanceof StreamInterface) {
             $value->rewind();
-            $value = $value->getContents();
+            $value = $value->read($this->length);
         }
 
         $this->isIdentical = new IsIdentical($value);
@@ -26,7 +26,7 @@ final class IsStreamContents extends Constraint
     {
         if ($other instanceof StreamInterface) {
             $other->rewind();
-            $other = $other->getContents();
+            $other = $other->read($this->length);
         }
 
         return $this->isIdentical->evaluate($other, $description, $returnResult);

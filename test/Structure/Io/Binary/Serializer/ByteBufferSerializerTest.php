@@ -41,7 +41,7 @@ final class ByteBufferSerializerTest extends AbstractSerializerTestCase
     }
 
     #[DataProvider('serializableTypesProvider')]
-    public function testReadReturnsValue(TypeInterface $expected, string $bytes): void
+    public function testUnSerializeReturnsValue(TypeInterface $expected, string $bytes): void
     {
         $stream = $this->getStream($bytes . self::CRYING);
         $actual = $this->getSerializer()->unserialize($stream, $this->getReader());

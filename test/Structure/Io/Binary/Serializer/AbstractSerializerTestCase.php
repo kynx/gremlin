@@ -40,7 +40,7 @@ abstract class AbstractSerializerTestCase extends TestCase
     abstract public static function invalidTypesProvider(): array;
 
     #[DataProvider('serializableTypesProvider')]
-    public function testWriteAppendsToStream(TypeInterface $type, string $expected): void
+    public function testSerializeAppendsToStream(TypeInterface $type, string $expected): void
     {
         $stream = $this->getWrittenStream();
         $this->getSerializer()->serialize($stream, $type, $this->getWriter());
@@ -48,7 +48,7 @@ abstract class AbstractSerializerTestCase extends TestCase
     }
 
     #[DataProvider('serializableTypesProvider')]
-    public function testReadReturnsValue(TypeInterface $expected, string $bytes): void
+    public function testUnSerializeReturnsValue(TypeInterface $expected, string $bytes): void
     {
         $stream = $this->getStream($bytes, self::CRYING);
         $actual = $this->getSerializer()->unserialize($stream, $this->getReader());
@@ -69,7 +69,7 @@ abstract class AbstractSerializerTestCase extends TestCase
     }
 
     #[DataProvider('invalidTypesProvider')]
-    public function testWriteInvalidValueThrowsException(TypeInterface $type): void
+    public function testSerializeInvalidValueThrowsException(TypeInterface $type): void
     {
         self::expectException(DomainException::class);
         $this->getSerializer()->serialize(self::createStub(StreamInterface::class), $type, $this->getWriter());
@@ -77,11 +77,19 @@ abstract class AbstractSerializerTestCase extends TestCase
 
     protected function getReader(): Reader
     {
-        return new Reader();
+        return new Reader(...$this->getSerializers());
     }
 
     protected function getWriter(): Writer
     {
-        return new Writer();
+        return new Writer(...$this->getSerializers());
+    }
+
+    /**
+     * @return array<SerializerInterface>
+     */
+    protected function getSerializers(): array
+    {
+        return [];
     }
 }

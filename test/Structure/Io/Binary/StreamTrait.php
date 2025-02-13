@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace KynxTest\Gremlin\Structure\Io\Binary;
 
 use GuzzleHttp\Psr7\Stream;
-use KynxTest\Gremlin\Structure\Io\Binary\Constraint\IsStreamContents;
+use KynxTest\Gremlin\Structure\Io\Binary\Constraint\IsStreamStartsWith;
 use KynxTest\Gremlin\Structure\Io\Binary\Constraint\IsStreamRemaining;
 use Psr\Http\Message\StreamInterface;
 
@@ -52,7 +52,7 @@ trait StreamTrait
 
     public static function assertStreamSame(string $expected, StreamInterface $actual, string $message = ''): void
     {
-        self::assertThat($actual, new IsStreamContents($expected), $message);
+        self::assertThat($actual, new IsStreamStartsWith($expected), $message);
     }
 
     public static function assertWrittenStreamSame(
@@ -60,7 +60,8 @@ trait StreamTrait
         StreamInterface $actual,
         string $message = ''
     ): void {
-        self::assertThat($actual, new IsStreamContents(self::CRYING . $expected), $message);
+        self::assertThat($actual, new IsStreamStartsWith(self::CRYING, 4), $message);
+        self::assertThat($actual, new IsStreamRemaining($expected), $message);
     }
 
     public static function assertHasRemainingStream(StreamInterface $actual, string $message = ''): void
