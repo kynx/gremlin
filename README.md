@@ -1,4 +1,4 @@
-# kynx/phremlin
+# kynx/gremlin
 
 Talk [Gremlin] to graph databases.
 
