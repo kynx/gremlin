@@ -25,6 +25,11 @@
       <code><![CDATA[$other->value]]></code>
     </MixedPropertyFetch>
   </file>
+  <file src="src/Structure/Type/AbstractArrayType.php">
+    <MixedPropertyFetch>
+      <code><![CDATA[$other->length]]></code>
+    </MixedPropertyFetch>
+  </file>
   <file src="src/Structure/Type/BigDecimalType.php">
     <TypeDoesNotContainNull>
       <code><![CDATA[$this->value === null]]></code>
@@ -137,7 +142,25 @@
       <code><![CDATA[serializableTypesProvider]]></code>
     </PossiblyUnusedMethod>
   </file>
+  <file src="test/Structure/Io/Binary/Serializer/ListSerializerTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[invalidTypesProvider]]></code>
+      <code><![CDATA[serializableTypesProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
   <file src="test/Structure/Io/Binary/Serializer/LongSerializerTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[invalidTypesProvider]]></code>
+      <code><![CDATA[serializableTypesProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="test/Structure/Io/Binary/Serializer/MapSerializerTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[invalidTypesProvider]]></code>
+      <code><![CDATA[serializableTypesProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="test/Structure/Io/Binary/Serializer/SetSerializerTest.php">
     <PossiblyUnusedMethod>
       <code><![CDATA[invalidTypesProvider]]></code>
       <code><![CDATA[serializableTypesProvider]]></code>
@@ -162,6 +185,12 @@
     </PossiblyUnusedMethod>
   </file>
   <file src="test/Structure/Io/Binary/Serializer/UnspecifiedNullObjectSerializerTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[invalidTypesProvider]]></code>
+      <code><![CDATA[serializableTypesProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="test/Structure/Io/Binary/Serializer/UuidSerializerTest.php">
     <PossiblyUnusedMethod>
       <code><![CDATA[invalidTypesProvider]]></code>
       <code><![CDATA[serializableTypesProvider]]></code>
@@ -255,9 +284,39 @@
       <code><![CDATA[toStringProvider]]></code>
     </PossiblyUnusedMethod>
   </file>
+  <file src="test/Structure/Type/ListTypeTest.php">
+    <DocblockTypeContradiction>
+      <code><![CDATA[$value instanceof Generator]]></code>
+    </DocblockTypeContradiction>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[equalsProvider]]></code>
+      <code><![CDATA[getValueProvider]]></code>
+      <code><![CDATA[lengthProvider]]></code>
+      <code><![CDATA[toStringProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
   <file src="test/Structure/Type/LongTypeTest.php">
     <PossiblyUnusedMethod>
       <code><![CDATA[equalsProvider]]></code>
+      <code><![CDATA[toStringProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="test/Structure/Type/MapTypeTest.php">
+    <DocblockTypeContradiction>
+      <code><![CDATA[$value instanceof Generator]]></code>
+    </DocblockTypeContradiction>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[equalsProvider]]></code>
+      <code><![CDATA[getValueProvider]]></code>
+      <code><![CDATA[lengthProvider]]></code>
+      <code><![CDATA[toStringProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="test/Structure/Type/SetTypeTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[equalsProvider]]></code>
+      <code><![CDATA[getValueProvider]]></code>
+      <code><![CDATA[lengthProvider]]></code>
       <code><![CDATA[toStringProvider]]></code>
     </PossiblyUnusedMethod>
   </file>
@@ -284,6 +343,13 @@
   <file src="test/Structure/Type/UnspecifiedNullObjectTest.php">
     <PossiblyUnusedMethod>
       <code><![CDATA[equalsProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="test/Structure/Type/UuidTypeTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[equalsProvider]]></code>
+      <code><![CDATA[getValueProvider]]></code>
+      <code><![CDATA[toStringProvider]]></code>
     </PossiblyUnusedMethod>
   </file>
   <file src="test/Structure/UtilTest.php">

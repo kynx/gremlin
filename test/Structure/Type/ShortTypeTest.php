@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace KynxTest\Gremlin\Structure\Type;
 
+use Kynx\Gremlin\Structure\Type\IntType;
 use Kynx\Gremlin\Structure\Type\ShortType;
 use Kynx\Gremlin\Structure\Type\TypeException;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -58,6 +59,7 @@ final class ShortTypeTest extends TestCase
         return [
             'null'          => [null, null, false],
             'object'        => [123, new stdClass(), false],
+            'int'           => [123, new IntType(123), false],
             'zero null'     => [0, new ShortType(null), false],
             'different int' => [123, new ShortType(456), false],
             'null null'     => [null, new ShortType(null), true],

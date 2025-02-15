@@ -32,8 +32,32 @@ final class TypeException extends DomainException implements ExceptionInterface
         return new self(sprintf("Expected value of type '%s', got: %s", $expected, get_debug_type($value)));
     }
 
+    public static function unsupportedValue(TypeInterface $type, mixed $value): self
+    {
+        return new self(sprintf("%s does not accept values of type '%s'", $type::class, get_debug_type($value)));
+    }
+
+    public static function invalidFormat(string $expected, string $value): self
+    {
+        return new self(sprintf("Expected string in format '%s', got: '%s'", $expected, $value));
+    }
+
     public static function unknownBufferLength(): self
     {
         return new self("Cannot calculate buffer length");
+    }
+
+    public static function unknownLength(TypeInterface $type, mixed $value): self
+    {
+        return new self(sprintf(
+            "Length is required for type %s with value of: %s",
+            $type::class,
+            get_debug_type($value)
+        ));
+    }
+
+    public static function duplicateValue(TypeInterface $value): self
+    {
+        return new self(sprintf("Duplicate value '%s' found in set", $value));
     }
 }

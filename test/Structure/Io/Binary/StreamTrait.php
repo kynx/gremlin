@@ -10,6 +10,7 @@ use KynxTest\Gremlin\Structure\Io\Binary\Constraint\IsStreamStartsWith;
 use Psr\Http\Message\StreamInterface;
 
 use function fopen;
+use function strlen;
 
 /**
  * @require-extends \PHPUnit\Framework\TestCase
