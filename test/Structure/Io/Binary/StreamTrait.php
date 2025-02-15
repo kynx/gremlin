@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace KynxTest\Gremlin\Structure\Io\Binary;
 
 use GuzzleHttp\Psr7\Stream;
-use KynxTest\Gremlin\Structure\Io\Binary\Constraint\IsStreamStartsWith;
 use KynxTest\Gremlin\Structure\Io\Binary\Constraint\IsStreamRemaining;
+use KynxTest\Gremlin\Structure\Io\Binary\Constraint\IsStreamStartsWith;
 use Psr\Http\Message\StreamInterface;
 
 use function fopen;
@@ -50,9 +50,9 @@ trait StreamTrait
         return $stream;
     }
 
-    public static function assertStreamSame(string $expected, StreamInterface $actual, string $message = ''): void
+    public static function assertStreamStartsWith(string $expected, StreamInterface $actual, string $message = ''): void
     {
-        self::assertThat($actual, new IsStreamStartsWith($expected), $message);
+        self::assertThat($actual, new IsStreamStartsWith($expected, strlen($expected)), $message);
     }
 
     public static function assertWrittenStreamSame(

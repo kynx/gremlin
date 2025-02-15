@@ -113,7 +113,7 @@ final class ByteBufferSerializerTest extends AbstractSerializerTestCase
         $serializer = $this->getSerializer();
 
         $serializer->serialize($stream, $buffer, $this->getWriter());
-        self::assertStreamSame($expected, $stream);
+        self::assertStreamStartsWith($expected, $stream);
     }
 
     public function testWriteEofBufferThrowsException(): void
