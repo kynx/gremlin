@@ -1,5 +1,5 @@
 {
-    "name": "kynx/phremlin",
+    "name": "kynx/gremlin",
     "description": "Talk Gremlin to graph databases",
     "type": "library",
     "license": "BSD-3-Clause",
