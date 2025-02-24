@@ -17,6 +17,9 @@
          failOnDeprecation="true"
          failOnPhpunitDeprecation="true"
  >
+  <excludes>
+    <exclude>e2e</exclude>
+  </excludes>
   <testsuites>
     <testsuite name="default">
       <directory suffix="Test.php">test</directory>
@@ -28,4 +31,9 @@
       <directory suffix=".php">src</directory>
     </include>
   </source>
+
+  <php>
+      <!-- URL for testing transport via httpbin.org - please use a local docker image! -->
+      <env name="HTTPBIN_URL" value="" />
+  </php>
 </phpunit>

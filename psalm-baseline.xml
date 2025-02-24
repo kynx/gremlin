@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <files psalm-version="6.5.1@3f17a6b24a2dbe543e21408c2b19108cf6a355ef">
+  <file src="src/Driver/MimeType.php">
+    <UnusedClass>
+      <code><![CDATA[MimeType]]></code>
+    </UnusedClass>
+  </file>
   <file src="src/Structure/AbstractElement.php">
     <MixedPropertyFetch>
       <code><![CDATA[$other->id]]></code>
@@ -39,6 +44,33 @@
     <TypeDoesNotContainNull>
       <code><![CDATA[$other->value === null]]></code>
     </TypeDoesNotContainNull>
+  </file>
+  <file src="test/Driver/Amphp/HttpTransportE2eTest.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[badStatusProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="test/Driver/Amphp/HttpTransportTest.php">
+    <PossiblyInvalidArgument>
+      <code><![CDATA[[$property => $expected]]]></code>
+      <code><![CDATA[[$property => $expected]]]></code>
+    </PossiblyInvalidArgument>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[badStatusProvider]]></code>
+      <code><![CDATA[transportOptionProvider]]></code>
+    </PossiblyUnusedMethod>
+  </file>
+  <file src="test/Driver/Stream/TransportStreamTest.php">
+    <InvalidArgument>
+      <code><![CDATA[static function (int $code, string $message) use (&$triggered): void {
+                $triggered = true;
+                self::assertSame(E_USER_WARNING, $code);
+                self::assertStringStartsWith('Error destroying ' . TransportStream::class . ': Foo', $message);
+            }]]></code>
+    </InvalidArgument>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[methodProvider]]></code>
+    </PossiblyUnusedMethod>
   </file>
   <file src="test/Structure/EdgeTest.php">
     <PossiblyUnusedMethod>
@@ -100,19 +132,7 @@
       <code><![CDATA[serializableTypesProvider]]></code>
     </PossiblyUnusedMethod>
   </file>
-  <file src="test/Structure/Io/Binary/Serializer/ByteSerializerTest.php">
-    <PossiblyUnusedMethod>
-      <code><![CDATA[invalidTypesProvider]]></code>
-      <code><![CDATA[serializableTypesProvider]]></code>
-    </PossiblyUnusedMethod>
-  </file>
   <file src="test/Structure/Io/Binary/Serializer/CharSerializerTest.php">
-    <PossiblyUnusedMethod>
-      <code><![CDATA[invalidTypesProvider]]></code>
-      <code><![CDATA[serializableTypesProvider]]></code>
-    </PossiblyUnusedMethod>
-  </file>
-  <file src="test/Structure/Io/Binary/Serializer/ClassSerializerTest.php">
     <PossiblyUnusedMethod>
       <code><![CDATA[invalidTypesProvider]]></code>
       <code><![CDATA[serializableTypesProvider]]></code>
@@ -173,12 +193,6 @@
     </PossiblyUnusedMethod>
   </file>
   <file src="test/Structure/Io/Binary/Serializer/StringSerializerTest.php">
-    <PossiblyUnusedMethod>
-      <code><![CDATA[invalidTypesProvider]]></code>
-      <code><![CDATA[serializableTypesProvider]]></code>
-    </PossiblyUnusedMethod>
-  </file>
-  <file src="test/Structure/Io/Binary/Serializer/TimestampSerializerTest.php">
     <PossiblyUnusedMethod>
       <code><![CDATA[invalidTypesProvider]]></code>
       <code><![CDATA[serializableTypesProvider]]></code>
@@ -248,13 +262,6 @@
       <code><![CDATA[equalsProvider]]></code>
       <code><![CDATA[expectedValueProvider]]></code>
       <code><![CDATA[invalidValueProvider]]></code>
-      <code><![CDATA[toStringProvider]]></code>
-    </PossiblyUnusedMethod>
-  </file>
-  <file src="test/Structure/Type/ClassTypeTest.php">
-    <PossiblyUnusedMethod>
-      <code><![CDATA[equalsProvider]]></code>
-      <code><![CDATA[getValueProvider]]></code>
       <code><![CDATA[toStringProvider]]></code>
     </PossiblyUnusedMethod>
   </file>
@@ -331,12 +338,6 @@
     <PossiblyUnusedMethod>
       <code><![CDATA[equalsProvider]]></code>
       <code><![CDATA[getValueProvider]]></code>
-      <code><![CDATA[toStringProvider]]></code>
-    </PossiblyUnusedMethod>
-  </file>
-  <file src="test/Structure/Type/TimestampTypeTest.php">
-    <PossiblyUnusedMethod>
-      <code><![CDATA[equalsProvider]]></code>
       <code><![CDATA[toStringProvider]]></code>
     </PossiblyUnusedMethod>
   </file>

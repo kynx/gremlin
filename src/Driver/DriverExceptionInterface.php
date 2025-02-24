@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Kynx\Gremlin\Driver;
 
-interface DriverExceptionInterface
-{
+use Kynx\Gremlin\ExceptionInterface;
 
+interface DriverExceptionInterface extends ExceptionInterface
+{
 }

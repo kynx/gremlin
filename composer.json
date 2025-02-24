@@ -23,7 +23,7 @@
     },
     "require": {
         "php-64bit": "~8.3.0 || ~8.4.0",
-        "amphp/websocket-client": "^2.0",
+        "amphp/http-client": "^5.2",
         "brick/math": "^0.12.1",
         "guzzlehttp/psr7": "^2.7",
         "psr/http-message": "^2.0"
